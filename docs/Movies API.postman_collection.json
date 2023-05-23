@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "8bd6b763-397c-4738-a991-a142a4049225",
+		"name": "Movies API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20097904"
+	},
+	"item": [
+		{
+			"name": "Login User",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n    \"email\": \"test@test.com\",\n    \"password\": \"default_password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost/api/login",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Juan Giménez Silva",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "whirlingInRags9am",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "juanfgs@gmail.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register new user Copy",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Juan Francisco Giménez Silva\",\n    \"email\": \"juanfgs@gmail.com\",\n    \"password\": \"whirlingInRags9\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost/api/register",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"register"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Juan Giménez Silva",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "whirlingInRags9am",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "juanfgs@gmail.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Movies",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2FwaS9sb2dpbiIsImlhdCI6MTY4NDg2NDExMywiZXhwIjoxNjg0ODY3NzEzLCJuYmYiOjE2ODQ4NjQxMTMsImp0aSI6IjhRTVd5Ymg5Z2VtWGxXY0UiLCJzdWIiOiIzIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.HdFXCMj5CI4jVePJJqrcATTvBYxAkdc_Apc49bxsLmA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Movie",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2FwaS9sb2dpbiIsImlhdCI6MTY4NDg2NDExMywiZXhwIjoxNjg0ODY3NzEzLCJuYmYiOjE2ODQ4NjQxMTMsImp0aSI6IjhRTVd5Ymg5Z2VtWGxXY0UiLCJzdWIiOiIzIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.HdFXCMj5CI4jVePJJqrcATTvBYxAkdc_Apc49bxsLmA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Dune\",\n    \"synopsis\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur justo eget diam lacinia ultrices. Nulla egestas orci orci, in euismod risus mattis semper. Cras luctus sagittis condimentum. Pellentesque porta justo nec massa iaculis, sit amet pharetra nibh fringilla. Sed efficitur ut mauris congue tempus. Aenean sit amet blandit ipsum, quis aliquam elit.\",\n    \"genre\": \"Sci-Fi\",\n    \"pg_rating\": \"13\",\n    \"release_date\" : \"2021-09-03\",\n    \"director_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/api/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
