@@ -46,11 +46,11 @@ class MoviesControllerTest extends TestCase
     public function testIndexNameFilter(): void
     {
 
-        $movieId = Movie::factory()->state(['name' => 'Star Wars Episode 2: Attack of The clones'])->create();
-        $movieId = Movie::factory()->state(['name' => 'Star Wars Episode VII: The Last Jedi'])->create();
-       $response = $this->actingAs($this->user())->get('/api/movies/?name=clones');
-       $response->assertJsonCount(1, 'message.data');
-       $response->assertJsonPath('message.data.0.name',
+        $movieId = Movie::factory()->state(['title' => 'Star Wars Episode 2: Attack of The clones'])->create();
+        $movieId = Movie::factory()->state(['title' => 'Star Wars Episode VII: The Last Jedi'])->create();
+        $response = $this->actingAs($this->user())->get('/api/movies/?title=clones');
+        $response->assertJsonCount(1, 'message.data');
+        $response->assertJsonPath('message.data.0.title',
                                  'Star Wars Episode 2: Attack of The clones');
 
     }
@@ -97,6 +97,22 @@ class MoviesControllerTest extends TestCase
                                  '2015-01-23 00:00:00');
     }
 
+    /**
+     * Allow to filter by director name 
+     */
+    public function testIndexFilterByDirectorName(): void
+    {
+
+        Movie::factory()->create();
+
+        $movie = Movie::factory()->create();
+
+       $response = $this->actingAs($this->user())->get('/api/movies/?director=' . $movie->director->name);
+       $response->assertJsonCount(1, 'message.data');
+       $response->assertJsonPath('message.data.0.director.name',
+                                 $movie->director->name);
+
+    }
 
 
     public function testStoreValid(): void
@@ -105,17 +121,18 @@ class MoviesControllerTest extends TestCase
         $director = Director::factory()->create();
         $valid_parameters = [
            
-            'name' =>  'Dune',
+            'title' =>  'Dune',
             'synopsis' =>  'Lorem ipsum dolor sit amet',
             'genre' =>  'Sci-Fi',
             'pg_rating' =>  '13',
+            'release_date' =>   new Carbon('2016-01-23'),
             'director_id' => $director->id 
         ];
         $response = $this->actingAs($this->user())->postJson('/api/movies',$valid_parameters );
 
         $response->assertStatus(201);
         $response->assertJson(fn (AssertableJson $json) =>
-                             $json->where('name', 'Dune')
+                             $json->where('title', 'Dune')
                                    ->where('synopsis', 'Lorem ipsum dolor sit amet')
                                    ->where('genre', 'Sci-Fi')
                                    ->where('pg_rating', '13')
@@ -133,7 +150,7 @@ class MoviesControllerTest extends TestCase
 
     public function testStoreInvalid(){
         $invalid_parameters = [
-            'name' =>  null,
+            'title' =>  null,
             'genre' =>  'Sci-Fi',
             'pg_rating' =>  97,
         ];
@@ -151,7 +168,7 @@ class MoviesControllerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
-                             $json->where('name', $movie->name)
+                             $json->where('title', $movie->title)
                                    ->where('synopsis', $movie->synopsis)
                                    ->where('genre', $movie->genre)
                                    ->where('pg_rating', $movie->pg_rating)
@@ -167,7 +184,7 @@ class MoviesControllerTest extends TestCase
     }
 
     public function testUpdateValid(){
-        $update_attributes =['name' => 'Star Wars'];
+        $update_attributes =['title' => 'Star Wars'];
         
         $movie = Movie::factory()->create();
         $response = $this->actingAs(
@@ -175,7 +192,7 @@ class MoviesControllerTest extends TestCase
                                       $update_attributes );
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
-                             $json->where('name', 'Star Wars')
+                             $json->where('title', 'Star Wars')
                                    ->where('synopsis', $movie->synopsis)
                                    ->where('genre', $movie->genre)
                                    ->where('pg_rating', $movie->pg_rating)
@@ -192,12 +209,12 @@ class MoviesControllerTest extends TestCase
 
    public function testUpdateInvalid(){
 
-       Movie::factory()->create();
+       $movieId = Movie::factory()->create()->id;
        $movie = Movie::factory()->create();
-       $invalid_update_attributes =['name' => $movie->name];
+       $invalid_update_attributes = [ 'title' => $movie->title ];
         
        $response = $this->actingAs(
-           $this->user())->patchJson('/api/movies/' . $movie->id
+           $this->user())->patchJson('/api/movies/' . $movieId
                                      , $invalid_update_attributes );
        $response->assertStatus(422);
 

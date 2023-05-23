@@ -28,7 +28,7 @@ class MoviesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:movies|max:255',
+            'title' => 'required|unique:movies|max:255',
             'director_id' => 'required'
             
         ]);
@@ -53,7 +53,7 @@ class MoviesController extends Controller
     public function update(Request $request, Movie $movie)
     {
         $request->validate([
-            'name' => 'unique:movies|max:255',
+            'title' => 'unique:movies|max:255',
             
         ]);
         $movie->update($request->input());
