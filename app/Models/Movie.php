@@ -18,6 +18,7 @@ class Movie extends Model
     public $with = ['director', 'actors'];
 
     public static $filterable = ['title', 'release_date_from', 'release_date_to', 'director'];
+    public static $sortable = ['title', 'release_date', 'genre', 'pg_rating'];
 
     public function director() { 
         return $this->belongsTo(Director::class);
@@ -42,8 +43,5 @@ class Movie extends Model
         return $query->join('directors', 'directors.id','=','movies.director_id')
                      ->where('directors.name', '=', $name );
     }
-
-
-
 
 }

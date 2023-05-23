@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use App\Models\Movie;
 use Illuminate\Http\Request;
     
@@ -13,13 +13,23 @@ class MoviesController extends Controller
     public function index(Request $request)
     {
         $movies = null;
-        if($request->hasAny(Movie::$filterable)){
-            $movies = Movie::filter($request->input())->paginate();
-        } else{
-            $movies = Movie::paginate();
+        if($request->hasAny(Movie::$filterable))
+        {
+            $movies = Movie::filter($request->input());
+        } else
+        {
+            $movies = DB::table('movies');
         }
+        if($request->has('sort_by')
+           && in_array($request->input('sort_by'), Movie::$sortable)
+        )
+        {
+            $movies->orderBy($request->input('sort_by'), 'asc');
+
+        }
+
         return response()->json(['success' => true,
-                                 'message' => $movies]);
+                                 'message' => $movies->paginate()]);
     }
 
     /**
