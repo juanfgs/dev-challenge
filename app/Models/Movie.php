@@ -13,11 +13,11 @@ class Movie extends Model
 
     use FilterableTrait;
 
-    public $fillable = ['director_id', 'genre', 'name', 'synopsis', 'pg_rating'];
+    public $fillable = ['director_id', 'genre', 'title', 'synopsis', 'pg_rating','release_date'];
 
     public $with = ['director', 'actors'];
 
-    public static $filterable = ['name', 'release_date_from', 'release_date_to'];
+    public static $filterable = ['title', 'release_date_from', 'release_date_to', 'director'];
 
     public function director() { 
         return $this->belongsTo(Director::class);
@@ -26,8 +26,8 @@ class Movie extends Model
         return $this->belongsToMany(Actor::class);
     }
 
-    public function scopeName(Builder $query, string $name){
-        return $query->where('name', 'like', "%" . $name . "%");
+    public function scopeTitle(Builder $query, string $title){
+        return $query->where('title', 'like', "%" . $title . "%");
     }
 
     public function scopeReleaseDateFrom(Builder $query, string $date){
@@ -37,6 +37,12 @@ class Movie extends Model
     public function scopeReleaseDateTo(Builder $query, string $date){
         return $query->where('release_date', '<', $date );
     }
+
+    public function scopeDirector(Builder $query, string $name){
+        return $query->join('directors', 'directors.id','=','movies.director_id')
+                     ->where('directors.name', '=', $name );
+    }
+
 
 
 

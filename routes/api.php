@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MoviesController;
+use App\Http\Controllers\EpisodesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,8 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware(['auth:api'])->group(function(){
     Route::resource('movies',MoviesController::class);
+});
+
+Route::middleware(['auth:api'])->group(function(){
+    Route::resource('episodes', EpisodesController::class );
 });

@@ -15,6 +15,7 @@ class MoviesControllerTest extends TestCase
 {
 
     use RefreshDatabase;
+
     public static function user() {
         return User::factory()->create();
     }
