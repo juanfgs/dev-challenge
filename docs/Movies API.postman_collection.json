@@ -79,7 +79,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Juan Francisco Giménez Silva\",\n    \"email\": \"juanfgs@gmail.com\",\n    \"password\": \"whirlingInRags9\"\n}",
+					"raw": "{\n    \"name\": \"test yes\",\n    \"email\": \"test@test.com\",\n    \"password\": \"asdasd\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -146,6 +146,35 @@
 			"response": []
 		},
 		{
+			"name": "Show Episode",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2FwaS9sb2dpbiIsImlhdCI6MTY4NDg2NDExMywiZXhwIjoxNjg0ODY3NzEzLCJuYmYiOjE2ODQ4NjQxMTMsImp0aSI6IjhRTVd5Ymg5Z2VtWGxXY0UiLCJzdWIiOiIzIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.HdFXCMj5CI4jVePJJqrcATTvBYxAkdc_Apc49bxsLmA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create Movie",
 			"request": {
 				"auth": {
@@ -168,7 +197,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Dune\",\n    \"synopsis\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur justo eget diam lacinia ultrices. Nulla egestas orci orci, in euismod risus mattis semper. Cras luctus sagittis condimentum. Pellentesque porta justo nec massa iaculis, sit amet pharetra nibh fringilla. Sed efficitur ut mauris congue tempus. Aenean sit amet blandit ipsum, quis aliquam elit.\",\n    \"genre\": \"Sci-Fi\",\n    \"pg_rating\": \"13\",\n    \"release_date\" : \"2021-09-03\",\n    \"director_id\": 1\n}",
+					"raw": "{\n    \"title\": \"fdsafdsafdsa\",\n    \"synopsis\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur justo eget diam lacinia ultrices. Nulla egestas orci orci, in euismod risus mattis semper. Cras luctus sagittis condimentum. Pellentesque porta justo nec massa iaculis, sit amet pharetra nibh fringilla. Sed efficitur ut mauris congue tempus. Aenean sit amet blandit ipsum, quis aliquam elit.\",\n    \"genre\": \"Sci-Fi\",\n    \"pg_rating\": \"13\",\n    \"release_date\" : \"2021-09-03\",\n    \"director_id\": 11\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -1,66 +1,271 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dev Challenge
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Summary
 
-## About Laravel
+This project correspond to the backend coding challenge with the following characteristics:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The API has to fulfill the following conditions:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Endpoints for authentication using JWT.
+  Also an endpoint for refreshing the JWT access token.
+- Endpoint for retrieving movies.
+  It should be allowed to filter and sort by some field.
+- Endpoint for retrieving the information (director included) of a specific episode of a TV Show
+- Endpoint for adding a new object (it could be for any entity you like).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Entities to consider:
 
-## Learning Laravel
+- Movie  
+  Has many actors, but one director.
+- TV Show  
+  Has many actors, but one director. It also has seasons and episodes inside each of one.
+- Actor  
+  Can be on different movies and tv shows.
+- Director  
+  Can direct many movies and specific episodes of tv shows.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Requirements
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Functioning PHP 7+ installation, docker. 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+clone the repository
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+git clone git@github.com:juanfgs/dev-challenge.git
+```
 
-### Premium Partners
+install dependencies
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```
+composer install 
+```
 
-## Contributing
+run sail to execute the project
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+vendor/laravel/sail/bin/sail up -d
+```
 
-## Code of Conduct
+Generate JWT tokens
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
+vendor/laravel/sail/bin/sail jwt:generate
 
-## Security Vulnerabilities
+vendor/laravel/sail/bin/sail jwt:secret
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This will build the containers and execute the API on port 80
+
+### Seeding the database
+
+run the following command to create the database.
+
+```
+sail artisan db:seed 
+```
+
+### Endpoints
+
+A [postman collection](https://raw.githubusercontent.com/juanfgs/dev-challenge/main/docs/Movies%20API.postman_collection.json) is provided for convenience testing the API.
+
+
+
+POST /api/login
+
+```
+{
+    "email": "test@test.com",
+    "password": "default_password"
+}
+```
+
+POST /api/register
+
+```
+{
+    "name": "John Doe",
+    "email": "test@cdsa.com",
+    "password": "asdasd123"
+}
+```
+
+GET /api/movies/
+
+###### Response 200 OK
+
+```
+{
+    "success": true,
+    "message": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 9,
+                "title": "Bud Sauer",
+                "director_id": 18,
+                "genre": "Dr. Dino Ortiz II",
+                "pg_rating": "13",
+                "synopsis": "Eius amet dolorum et minus aliquam autem. Minus iure nam excepturi enim qui. Iusto vitae fuga expedita error dolor eaque velit.",
+                "created_at": "2023-05-23 17:50:46",
+                "updated_at": "2023-05-23 17:50:46",
+                "release_date": "1997-02-07"
+            }
+       ],
+        "first_page_url": "http://localhost/api/movies?page=1",
+        "from": 1,
+        "last_page": 2,
+        "last_page_url": "http://localhost/api/movies?page=2",
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http://localhost/api/movies?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": "http://localhost/api/movies?page=2",
+                "label": "2",
+                "active": false
+            },
+            {
+                "url": "http://localhost/api/movies?page=2",
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "next_page_url": "http://localhost/api/movies?page=2",
+        "path": "http://localhost/api/movies",
+        "per_page": 15,
+        "prev_page_url": null,
+        "to": 15,
+        "total": 16
+    }
+      
+}
+```
+
+###### Query parameters
+
+- **title** : *filter by movie title*
+
+- **release_date_from** : *filter movies from certain date*
+
+- **release_date_to** : *filter movies until certain date*
+
+- **director** : *filter by Director Name*
+
+- **sort_by** : *it allows to sort by fields (title, release_date, director)*
+
+
+
+POST /api/movies 
+
+###### Response 200 OK
+
+```
+{
+    "title": "fdsafdsafdsa",
+    "synopsis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur justo eget diam lacinia ultrices. Nulla egestas orci orci, in euismod risus mattis semper. Cras luctus sagittis condimentum. Pellentesque porta justo nec massa iaculis, sit amet pharetra nibh fringilla. Sed efficitur ut mauris congue tempus. Aenean sit amet blandit ipsum, quis aliquam elit.",
+    "genre": "Sci-Fi",
+    "pg_rating": "13",
+    "release_date": "2021-09-03",
+    "director_id": 11,
+    "updated_at": "2023-05-23T18:34:34.000000Z",
+    "created_at": "2023-05-23T18:34:34.000000Z",
+    "id": 19,
+    "director": {
+        "id": 11,
+        "name": "Janie Paucek",
+        "date_of_birth": "2011-03-05",
+        "created_at": "2023-05-23T17:50:45.000000Z",
+        "updated_at": "2023-05-23T17:50:45.000000Z"
+    }
+}
+```
+
+###### Response 422 Unprocessable content
+
+###### JSON SCHEMA
+
+```
+{
+    "title": "Dune",
+    "synopsis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur justo eget diam lacinia ultrices. Nulla egestas orci orci, in euismod risus mattis semper. Cras luctus sagittis condimentum. Pellentesque porta justo nec massa iaculis, sit amet pharetra nibh fringilla. Sed efficitur ut mauris congue tempus. Aenean sit amet blandit ipsum, quis aliquam elit.",
+    "genre": "Sci-Fi",
+    "pg_rating": "13",
+    "release_date" : "2021-09-03",
+    "director_id": 11
+}
+```
+
+PATCH /api/movies/{id}
+
+###### Response 200 OK
+
+```
+{
+    "title": "Dune",
+    "synopsis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur justo eget diam lacinia ultrices. Nulla egestas orci orci, in euismod risus mattis semper. Cras luctus sagittis condimentum. Pellentesque porta justo nec massa iaculis, sit amet pharetra nibh fringilla. Sed efficitur ut mauris congue tempus. Aenean sit amet blandit ipsum, quis aliquam elit.",
+    "genre": "Sci-Fi",
+    "pg_rating": "13",
+    "release_date" : "2021-09-03",
+    "director_id": 11
+}
+```
+
+DELETE /api/movies/{id} 
+
+###### Response 202 OK
+
+GET /api/episodes/{id}
+
+```
+{
+    "id": 11,
+    "name": "Marilou Fritsch",
+    "director_id": 26,
+    "pg_rating": "13",
+    "synopsis": "Esse nisi numquam ipsam ratione. Error facere est ipsum qui asperiores voluptas quia. Quam et voluptatum quibusdam laborum dicta.",
+    "created_at": "2023-05-23T17:50:46.000000Z",
+    "updated_at": "2023-05-23T17:50:46.000000Z",
+    "series_id": 2,
+    "director": {
+        "id": 26,
+        "name": "Garfield Homenick",
+        "date_of_birth": "1992-09-02",
+        "created_at": "2023-05-23T17:50:46.000000Z",
+        "updated_at": "2023-05-23T17:50:46.000000Z"
+    },
+    "series": {
+        "id": 2,
+        "name": "Clemens Koss",
+        "genre": "Prof. Carlotta Roberts",
+        "description": "Maxime atque quo eos. Est iste voluptatem ut doloremque amet. Accusamus quas necessitatibus ab quae.",
+        "created_at": "2023-05-23T17:50:46.000000Z",
+        "updated_at": "2023-05-23T17:50:46.000000Z",
+        "actors": [
+            {
+                "id": 84,
+                "name": "Ona Zemlak",
+                "height": "2",
+                "date_of_birth": "2000-09-24",
+                "created_at": "2023-05-23T17:50:46.000000Z",
+                "updated_at": "2023-05-23T17:50:46.000000Z",
+                "pivot": {
+                    "series_id": 2,
+                    "actor_id": 84
+                }
+            }
+      }
+}
+```
+
+###### Response 200 OK
